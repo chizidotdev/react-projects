@@ -4,12 +4,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 import ReactPlayer from "react-player";
 import { useLocation } from "react-router-dom";
 import { useResultContext } from "../context/ResultContext";
+import Navbar from "./Navbar";
 
 const Results = () => {
   const { results, isLoading, getResults, searchTerm } = useResultContext();
   const location = useLocation();
-
-  console.log(results);
 
   useEffect(() => {
     if (searchTerm) {
@@ -26,14 +25,14 @@ const Results = () => {
   switch (location.pathname) {
     case "/search":
       return (
-        <div className="flex flex-wrap justify-between space-y-6 sm:px-56">
+        <div className="flex flex-wrap w-full sm:w-4/5 mt-5 justify-between px-4 sm:px-7 ">
           {results?.map(({ link, title }, index) => (
-            <div key={index} className="md:w-2/5 w-full">
+            <div key={index} className="md:w-2/5 w-full mb-6 ">
               <a href={link} target="_blank" rel="noreferrer">
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm">
                   {link.length > 30 ? link.substring(0, 30) : link}
                 </p>
-                <p className="text-lg hover:underline dark:text-blue-300 text-blue-700">
+                <p className="text-sm sm:text-lg hover:underline dark:text-blue-300 text-blue-700">
                   {title}
                 </p>
               </a>
@@ -43,7 +42,7 @@ const Results = () => {
       );
     case "/image":
       return (
-        <div className="flex flex-wrap justify-center items-center">
+        <div className="flex flex-wrap justify-center items-center w-4/5 mt-5">
           {results?.map(({ image, link: { href, title } }, index) => (
             <a
               href={href}
@@ -60,7 +59,7 @@ const Results = () => {
       );
     case "/news":
       return (
-        <div className="flex flex-wrap justify-between space-y-6 md:px-56 items-center">
+        <div className="flex flex-wrap justify-between space-y-6 md:px-56 items-center w-4/5 mt-5">
           {results?.map(({ links, id, source, title }) => (
             <div key={id} className="md:w-2/5 w-full">
               <a
@@ -84,7 +83,7 @@ const Results = () => {
       );
     case "/videos":
       return (
-        <div className="flex flex-wrap justify-around">
+        <div className="flex flex-wrap justify-around w-4/5 mt-5">
           {results.map((video, index) => (
             <div key={index} className="p-2">
               <ReactPlayer

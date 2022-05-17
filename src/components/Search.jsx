@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { MdOutlineBackspace } from "react-icons/md";
+import { MdOutlineCancel } from "react-icons/md";
 
 import { useDebounce } from "use-debounce";
 import { useResultContext } from "../context/ResultContext";
 import Links from "./Links";
 
+import "../App.css";
+
 const Search = () => {
-  const [text, setText] = useState("React");
+  const [text, setText] = useState("");
   const { setSearchTerm } = useResultContext();
   const [debounceValue] = useDebounce(text, 300);
 
@@ -20,7 +22,7 @@ const Search = () => {
       <input
         type="text"
         value={text}
-        className="sm:w-96 h-10 dark:bg-gray-200 border rounded-full shadow-sm outline-none p-6 text-black hover:shadow-lg"
+        className="sm:w-96 h-10 dark:bg-gray-200 border rounded-full shadow-sm outline-none p-5 sm:p-6 text-black hover:shadow-lg"
         placeholder="Search"
         onChange={(e) => {
           setText(e.target.value);
@@ -29,12 +31,12 @@ const Search = () => {
       {text && (
         <button
           type="button"
-          className="absolute top-3 right-9 text-2xl text-gray-500"
+          className="clearbtn top-3 text-2xl text-gray-500"
           onClick={() => {
             setText("");
           }}
         >
-          <MdOutlineBackspace />
+          <MdOutlineCancel className="text-lg md:text-2xl" />
         </button>
       )}
       <Links />

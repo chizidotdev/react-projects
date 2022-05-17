@@ -1,17 +1,15 @@
 import { useState } from "react";
 import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
 import RoutesConfig from "./components/RoutesConfig";
+import { useThemeContext } from "./context/ThemeContext";
 
 function App() {
-  const [darkTheme, setDarkTheme] = useState(true);
+  const { darkTheme, setDarkTheme } = useThemeContext();
 
   return (
     <div className={darkTheme ? "dark" : ""}>
       <div className="bg-gray-100 dark:bg-gray-900 dark:text-gray-200 min-h-screen">
-        <Navbar darkTheme={darkTheme} setDarkTheme={setDarkTheme} />
         <RoutesConfig />
-        <Footer />
       </div>
     </div>
   );

@@ -5,8 +5,8 @@ const Footer = () => {
   const year = today.getFullYear();
 
   return (
-    <div className="text-center p-10 mt-10 border-t dark:border-gray-700 border-gray-200">
-      <h1>&copy; {year} Googl Inc</h1>
+    <div className="text-center px-10 py-3 mt-10 border-t dark:border-gray-700 border-gray-200">
+      <h1>&copy; {year} Choogle Inc.</h1>
     </div>
   );
 };
