@@ -11,7 +11,7 @@
 }
 
 .home {
-  height: 95vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -58,4 +58,10 @@
   border: 1px solid;
   padding: 5px 20px;
   border-radius: 3px;
+}
+
+.skeleton {
+  padding-top: 5vh;
+  display: grid;
+  gap: 10px;
 }

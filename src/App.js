@@ -1,10 +1,8 @@
-import { useState } from "react";
-import Footer from "./components/Footer";
 import RoutesConfig from "./components/RoutesConfig";
 import { useThemeContext } from "./context/ThemeContext";
 
 function App() {
-  const { darkTheme, setDarkTheme } = useThemeContext();
+  const { darkTheme } = useThemeContext();
 
   return (
     <div className={darkTheme ? "dark" : ""}>

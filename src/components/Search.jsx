@@ -9,8 +9,8 @@ import Links from "./Links";
 import "../App.css";
 
 const Search = () => {
-  const [text, setText] = useState("");
-  const { setSearchTerm } = useResultContext();
+  const { searchTerm, setSearchTerm } = useResultContext();
+  const [text, setText] = useState(searchTerm);
   const [debounceValue] = useDebounce(text, 300);
 
   useEffect(() => {
@@ -28,17 +28,15 @@ const Search = () => {
           setText(e.target.value);
         }}
       />
-      {text && (
-        <button
-          type="button"
-          className="clearbtn top-3 text-2xl text-gray-500"
-          onClick={() => {
-            setText("");
-          }}
-        >
-          <MdOutlineCancel className="text-lg md:text-2xl" />
-        </button>
-      )}
+      <button
+        type="button"
+        className="clearbtn top-3 text-2xl text-gray-500"
+        onClick={() => {
+          setText("");
+        }}
+      >
+        <MdOutlineCancel className="text-lg md:text-2xl" />
+      </button>
       <Links />
     </div>
   );
