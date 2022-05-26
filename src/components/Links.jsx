@@ -11,7 +11,7 @@ const links = [
 
 const Links = () => {
   return (
-    <div className="flex sm:justify-around justify-between text-xs sm:text-base items-center mt-4">
+    <div className="flex justify-evenly text-xs lg:text:base w-full max-w-sm items-center mt-4">
       {links.map(({ url, text, icon }) => (
         <>
           <NavLink

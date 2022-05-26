@@ -9,13 +9,17 @@ const Results = () => {
   const { results, isLoading, getResults, searchTerm } = useResultContext();
   const location = useLocation();
 
+  const getResultData = async () => {
+    if (location.pathname === "/videos") {
+      await getResults(`/search/q=${searchTerm} videos`);
+    } else {
+      await getResults(`${location.pathname}/q=${searchTerm}&num=40`);
+    }
+  };
+
   useEffect(() => {
     if (searchTerm) {
-      if (location.pathname === "/videos") {
-        getResults(`/search/q=${searchTerm} videos`);
-      } else {
-        getResults(`${location.pathname}/q=${searchTerm}&num=40`);
-      }
+      getResultData();
     }
   }, [searchTerm, location.pathname]);
 
@@ -24,17 +28,24 @@ const Results = () => {
   switch (location.pathname) {
     case "/search":
       return (
-        <div className="flex flex-wrap w-full sm:w-4/5 mt-5 justify-between px-4 sm:px-7 ">
-          {results?.map(({ link, title }, index) => (
+        <div className="flex flex-wrap w-full lg:w-4/5 mt-5 justify-evenly px-4">
+          {results?.map(({ link, title, description }, index) => (
             <div key={index} className="md:w-2/5 w-full mb-6 ">
               <a href={link} target="_blank" rel="noreferrer">
                 <p className="text-xs sm:text-sm">
-                  {link.length > 30 ? link.substring(0, 30) : link}
+                  {typeof link == "object"
+                    ? "/"
+                    : link.length > 30
+                    ? link.substring(0, 30)
+                    : link}
                 </p>
-                <p className="text-sm sm:text-lg hover:underline dark:text-blue-300 text-blue-700">
+                <p className="text-base sm:text-lg hover:underline dark:text-blue-300 text-blue-700">
                   {title}
                 </p>
               </a>
+              <p className="line-clamp-2 text-sm sm:text-base mt-2">
+                {description}
+              </p>
             </div>
           ))}
         </div>
@@ -51,7 +62,7 @@ const Results = () => {
               className="sm:p-4 p-3 w-2/5 sm:w-2/6 md:w-1/5"
             >
               <img src={image?.src} alt={link.title} loading="lazy" />
-              <p className="break-words mt-2 text-xs sm:text-sm">
+              <p className="break-words line-clamp-3 mt-2 text-xs sm:text-sm">
                 {link.title}
               </p>
             </a>
