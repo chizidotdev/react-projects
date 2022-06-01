@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { IoMoonOutline } from "react-icons/io5";
+
 const Container = styled.header`
   display: flex;
   align-items: center;
@@ -14,14 +16,25 @@ const Title = styled.h1`
 `;
 const Theme = styled.p`
   font-size: 0.875em;
+  display: flex;
+  align-items: center;
 `;
-const ThemeIcon = styled.span``;
+const ThemeIcon = styled.span`
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+`;
 
 const Header = () => {
   return (
-    <Container className="header">
+    <Container className="header shadow">
       <Title>Where in the world?</Title>
-      <Theme>Dark Mode</Theme>
+      <Theme>
+        <ThemeIcon>
+          <IoMoonOutline />
+        </ThemeIcon>
+        Dark Mode
+      </Theme>
     </Container>
   );
 };

@@ -1,15 +1,19 @@
 import React from "react";
-import { ResultContextProvider } from "./context/ResultContext";
-import { ThemeContextProvider } from "./context/ThemeContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useResultContext } from "./context/ResultContext";
+import Detail from "./pages/Detail";
 import Home from "./pages/Home";
 
 const App = () => {
+  const { detail } = useResultContext();
+
   return (
-    <ResultContextProvider>
-      <ThemeContextProvider>
-        <Home />
-      </ThemeContextProvider>
-    </ResultContextProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path={`/details/`} element={<Detail />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

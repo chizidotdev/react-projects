@@ -1,9 +1,12 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useResultContext } from "../context/ResultContext";
 import "../index.scss";
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,35 +26,84 @@ const Image = styled.div`
   background-size: cover;
   background-position: center;
 `;
+const Body = styled.div`
+  padding: 30px;
+  font-size: 14px;
+`;
+const Name = styled.h1`
+  font-size: 1.4em;
+  margin-bottom: 1rem;
+`;
+const Detail = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 0.3rem;
+`;
+const DetailTitle = styled.h3`
+  font-size: 1em;
+`;
+const DetailDesc = styled.p`
+  font-size: 0.9em;
+`;
 
 const Card = () => {
-  const { results } = useResultContext();
+  const [countries, setCountries] = useState();
+  const { results, setDetail, filteredResults, region } = useResultContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (region) {
+      setCountries(filteredResults);
+    } else {
+      setCountries(results);
+    }
+    console.log(results);
+  }, [region, results]);
+
+  const handleDetail = (id) => {
+    console.log("Selected item at id", id);
+
+    if (region) {
+      setDetail(filteredResults[id]);
+    } else {
+      setDetail(results[id]);
+    }
+
+    navigate("/details");
+  };
 
   return (
-    <Wrapper>
-      {results?.map((result, index) => (
-        <CardItem className="shadow" key={index}>
+    <Container>
+      {countries?.map((result, index) => (
+        <CardItem
+          className="shadow"
+          key={index}
+          onClick={() => handleDetail(index)}
+        >
           <Image
             style={{
               backgroundImage: `url(${result.flags.png})`,
             }}
           ></Image>
-          <h1>{result.name.common}</h1>
-          <div>
-            <h3>Population</h3>
-            <p>{result.population}</p>
-          </div>
-          <div>
-            <h3>Region</h3>
-            <p>{result.region}</p>
-          </div>
-          <div>
-            <h3>Capital</h3>
-            <p>{result.capital[0]}</p>
-          </div>
+          <Body>
+            <Name>{result.name.common}</Name>
+            <Detail>
+              <DetailTitle>Population:</DetailTitle>
+              <DetailDesc>{result.population.toLocaleString()}</DetailDesc>
+            </Detail>
+            <Detail>
+              <DetailTitle>Region:</DetailTitle>
+              <DetailDesc>{result.region}</DetailDesc>
+            </Detail>
+            <Detail>
+              <DetailTitle>Capital:</DetailTitle>
+              <DetailDesc>{result.capital}</DetailDesc>
+            </Detail>
+          </Body>
         </CardItem>
       ))}
-    </Wrapper>
+    </Container>
   );
 };
 
