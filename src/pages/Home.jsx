@@ -1,11 +1,16 @@
 import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
 import Header from "../components/Header";
+import { LoadingCard } from "../components/Loader";
+import Pagination from "../components/Pagination";
 import { useResultContext } from "../context/ResultContext";
 
-const Container = styled.div`
-  min-height: 100vh;
+const Container = styled.section`
+  padding: 5vh 5vw;
+  min-height: 90vh;
+  background-color: ${(p) => p.theme.bgColor};
 `;
 const Form = styled.form`
   display: flex;
@@ -21,6 +26,9 @@ const Input = styled.input`
   border: none;
   outline: none;
   border-radius: 5px;
+  background-color: ${(p) => p.theme.elColor};
+  box-shadow: ${(p) => p.theme.shadow};
+  color: ${(p) => p.theme.textColor};
 `;
 const Select = styled.select`
   width: 200px;
@@ -28,85 +36,99 @@ const Select = styled.select`
   padding-right: 1rem;
   border: none;
   outline: none;
-  background-color: white;
+  background-color: ${(p) => p.theme.elColor};
+  color: ${(p) => p.theme.textColor};
+  box-shadow: ${(p) => p.theme.shadow};
   border-radius: 5px;
+  cursor: pointer;
+`;
+const ErrorMessage = styled.p`
+  height: 30vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: ${(p) => p.theme.textColor}; ;
 `;
 
-const Home = () => {
-  // const { darkTheme } = useThemeContext();
+const Home = ({ setTheme, theme }) => {
   const {
-    country,
-    setCountry,
-    region,
-    setRegion,
-    getSearchResults,
-    setFilteredResults,
+    setResults,
     results,
-    filteredResults,
+    error,
+    loading,
+    getSearchResults,
+    getFilteredResults,
   } = useResultContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [paginatedResults, setPaginatedResults] = useState(results);
 
   useEffect(() => {
-    const getData = async () => {
-      await getSearchResults();
+    const idxOfLastPost = currentPage * postsPerPage;
+    const idxOfFirstPost = idxOfLastPost - postsPerPage;
+    setPaginatedResults(results?.slice(idxOfFirstPost, idxOfLastPost));
+  }, [results, currentPage]);
 
-      if (region !== "") {
-        console.log("Region Selected", region);
-        if (region === "Filter by Region") {
-          setRegion("");
-          return;
-        }
-        const filteredData = results.filter(
-          (country) => country.region === region
-        );
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
 
-        setFilteredResults(filteredData);
-        return;
-      }
-    };
-
-    getData();
-    console.log("region", region);
-    console.log("line before region code");
-
-    console.log("filteredResults", filteredResults);
-  }, [country]);
+    getSearchResults(name);
+  };
 
   const handleFilter = (e) => {
-    setRegion(e.target.value);
+    const region = e.target.value;
 
-    getSearchResults();
+    getFilteredResults(region);
+    setCurrentPage(1);
+  };
+
+  window.onbeforeunload = (event) => {
+    const e = event || window.event;
+    // Cancel the event
+    e.preventDefault();
+    if (e) {
+      e.returnValue = "Go back to home page"; // Legacy method for cross browser support
+    }
+
+    return ""; // Legacy method for cross browser support
   };
 
   return (
-    <section>
-      <Header />
-      <Container className={`container light`}>
-        <Form>
-          <Input
-            className="shadow"
-            type="text"
-            name="name"
-            placeholder="Search for a country"
-            autoComplete="off"
-            onChange={(e) => setCountry(e.target.value)}
-          />
-          <Select
-            onChange={handleFilter}
-            defaultValue="Filter by Region"
-            className="shadow"
-          >
-            <option>Filter by Region</option>
-            <option value="Africa">Africa</option>
-            <option value="Americas">America</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europe</option>
-            <option value="Oceania">Oceania</option>
-            <option value="Antartic">Antartic</option>
-          </Select>
-        </Form>
-        <Card />
-      </Container>
-    </section>
+    <Container>
+      <Form onSubmit={handleSearch}>
+        <Input
+          type="text"
+          name="name"
+          placeholder="Search for a country..."
+          autoComplete="off"
+        />
+        <Select onChange={handleFilter} defaultValue="Filter by Region">
+          <option>Filter by Region</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">America</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+          <option value="Antarctic">Antarctic</option>
+        </Select>
+      </Form>
+      {error ? (
+        <ErrorMessage>
+          Error Fetching Countries <br /> Please refresh or try again...
+        </ErrorMessage>
+      ) : loading ? (
+        <LoadingCard />
+      ) : (
+        <Card paginatedResults={paginatedResults} />
+      )}
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={results?.length}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </Container>
   );
 };
 

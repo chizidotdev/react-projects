@@ -1,10 +1,7 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useResultContext } from "../context/ResultContext";
-import "../index.scss";
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +16,14 @@ const CardItem = styled.div`
   height: 350px;
   background-color: white;
   border-radius: 5px;
+  cursor: pointer;
+  background-color: ${(p) => p.theme.elColor};
+  box-shadow: ${(p) => p.theme.shadow};
+  transition: transform 0.2s ease-in;
+
+  &:hover {
+    transform: translateY(-1%);
+  }
 `;
 const Image = styled.div`
   top: 0;
@@ -29,6 +34,7 @@ const Image = styled.div`
 const Body = styled.div`
   padding: 30px;
   font-size: 14px;
+  color: ${(p) => p.theme.textColor};
 `;
 const Name = styled.h1`
   font-size: 1.4em;
@@ -47,40 +53,23 @@ const DetailDesc = styled.p`
   font-size: 0.9em;
 `;
 
-const Card = () => {
-  const [countries, setCountries] = useState();
-  const { results, setDetail, filteredResults, region } = useResultContext();
+const Card = ({ paginatedResults: results }) => {
+  const { setLoading, setDetail } = useResultContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (region) {
-      setCountries(filteredResults);
-    } else {
-      setCountries(results);
-    }
-    console.log(results);
-  }, [region, results]);
-
   const handleDetail = (id) => {
+    setLoading(true);
     console.log("Selected item at id", id);
 
-    if (region) {
-      setDetail(filteredResults[id]);
-    } else {
-      setDetail(results[id]);
-    }
-
+    setDetail(results[id]);
     navigate("/details");
+    setLoading(false);
   };
 
   return (
     <Container>
-      {countries?.map((result, index) => (
-        <CardItem
-          className="shadow"
-          key={index}
-          onClick={() => handleDetail(index)}
-        >
+      {results?.map((result, index) => (
+        <CardItem key={index} onClick={() => handleDetail(index)}>
           <Image
             style={{
               backgroundImage: `url(${result.flags.png})`,

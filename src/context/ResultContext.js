@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ResultContext = createContext();
 const baseUrl = "https://restcountries.com/v3.1/";
@@ -180,36 +180,57 @@ const dummyData = {
 export const ResultContextProvider = ({ children }) => {
   const [results, setResults] = useState();
   const [error, setError] = useState(false);
-  const [detail, setDetail] = useState();
-  const [filteredResults, setFilteredResults] = useState();
-  const [country, setCountry] = useState("");
-  const [region, setRegion] = useState("");
+  const [details, setDetail] = useState(results);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getAllResults();
+  }, []);
 
   const getAllResults = async () => {
-    const response = await fetch(`${baseUrl}/all`);
-    console.log(response);
+    setError(false);
+    setLoading(true);
+    const response = await fetch(`${baseUrl}all/`);
+    if (response.status === 200) {
+      const data = await response.json();
+
+      setDetail(data[0]);
+      setResults(data);
+      setLoading(false);
+    } else {
+      setError(true);
+      return;
+    }
+  };
+
+  const getSearchResults = async (name) => {
+    setError(false);
+    setLoading(true);
+    const response = await fetch(`${baseUrl}name/${name}/`);
     if (response.status === 404) {
       setError(true);
       return;
     }
     const data = await response.json();
-
     setResults(data);
+    setLoading(false);
   };
 
-  const getSearchResults = async () => {
-    if (country === "") {
-      await getAllResults();
-    } else {
-      const response = await fetch(`${baseUrl}name/${country}`);
-      console.log(response);
-      if (response.status === 404) {
-        setError(true);
-        return;
-      }
-      const data = await response.json();
-      setResults(data);
+  const getFilteredResults = async (region) => {
+    setError(false);
+    setLoading(true);
+    if (region === "Filter by Region") {
+      getAllResults();
+      return;
     }
+    const response = await fetch(`${baseUrl}region/${region}/`);
+    if (response.status === 404) {
+      setError(true);
+      return;
+    }
+    const data = await response.json();
+    setResults(data);
+    setLoading(false);
   };
 
   return (
@@ -217,17 +238,15 @@ export const ResultContextProvider = ({ children }) => {
       value={{
         results,
         error,
-        detail,
-        filteredResults,
-        country,
-        region,
+        details,
+        loading,
         getAllResults,
+        getSearchResults,
+        getFilteredResults,
         setError,
         setResults,
-        getSearchResults,
         setDetail,
-        setRegion,
-        setCountry,
+        setLoading,
       }}
     >
       {children}

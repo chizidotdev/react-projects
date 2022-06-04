@@ -29,10 +29,10 @@ $white: hsl(0, 0%, 100%);
   background-color: $veryLightGray;
 }
 
-.container {
-  padding: 5vh 5vw;
+.shadow {
+  box-shadow: 0 1px 8px -2px $darkGray;
 }
 
-.shadow {
-  box-shadow: 0 1px 10px -5px $darkGray;
+.mb {
+  margin-bottom: 5px;
 }
