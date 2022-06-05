@@ -113,7 +113,11 @@ const Home = () => {
             autoComplete="off"
           />
         </InputContainer>
-        <Select onChange={handleFilter} defaultValue="Filter by Region">
+        <Select
+          onChange={handleFilter}
+          name="options"
+          defaultValue="Filter by Region"
+        >
           <option>Filter by Region</option>
           <option value="Africa">Africa</option>
           <option value="Americas">America</option>

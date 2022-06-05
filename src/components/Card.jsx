@@ -36,7 +36,7 @@ const Body = styled.div`
   font-size: 14px;
   color: ${(p) => p.theme.textColor};
 `;
-const Name = styled.h1`
+const Name = styled.h2`
   font-size: 1.4em;
   margin-bottom: 1rem;
 `;
