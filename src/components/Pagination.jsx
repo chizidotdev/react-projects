@@ -43,12 +43,13 @@ const Link = styled.a`
     box-shadow: ${(p) => p.theme.btnShadow};
   }
 `;
-const Button = styled.button`
-  border: none;
+const Button = styled.a`
+  text-decoration: none;
   padding: 10px 15px;
   background-color: ${(p) => p.theme.elColor};
   font-size: 14px;
   border-radius: 5px;
+  color: ${(p) => p.theme.textColor};
   cursor: pointer;
   box-shadow: ${(p) => p.theme.btnShadow};
   transition: transform 0.2s ease-in-out;
@@ -56,12 +57,6 @@ const Button = styled.button`
   &:hover {
     transform: translateY(-4%);
   }
-`;
-const ButtonLink = styled.a`
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: ${(p) => p.theme.textColor};
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -85,19 +80,15 @@ const Pagination = ({
     <PaginateNav>
       <Wrapper>
         {currentPage > 1 && (
-          <Button onClick={() => setCurrentPage((p) => p - 1)}>
-            <ButtonLink href="#">
-              <BiLeftArrow style={{ fontSize: "12px", marginRight: "7px" }} />
-              Back
-            </ButtonLink>
+          <Button onClick={() => setCurrentPage((p) => p - 1)} href="#">
+            <BiLeftArrow style={{ fontSize: "12px", marginRight: "7px" }} />
+            Back
           </Button>
         )}
         {currentPage !== pageNumbers.length && (
-          <Button onClick={() => setCurrentPage((p) => p + 1)}>
-            <ButtonLink href="#">
-              Next
-              <BiRightArrow style={{ fontSize: "12px", marginLeft: "7px" }} />
-            </ButtonLink>
+          <Button onClick={() => setCurrentPage((p) => p + 1)} href="#">
+            Next
+            <BiRightArrow style={{ fontSize: "12px", marginLeft: "7px" }} />
           </Button>
         )}
       </Wrapper>

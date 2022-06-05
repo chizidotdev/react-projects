@@ -46,7 +46,7 @@ const Detail = styled.div`
   gap: 7px;
   margin-bottom: 0.3rem;
 `;
-const DetailTitle = styled.h3`
+const DetailTitle = styled.h2`
   font-size: 1em;
 `;
 const DetailDesc = styled.p`

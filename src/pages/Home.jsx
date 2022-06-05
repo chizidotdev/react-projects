@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card";
-import Header from "../components/Header";
 import { LoadingCard } from "../components/Loader";
 import Pagination from "../components/Pagination";
 import { useResultContext } from "../context/ResultContext";
@@ -20,9 +19,13 @@ const Form = styled.form`
   gap: 40px;
   margin-bottom: 7vh;
 `;
-const Input = styled.input`
-  padding: 1rem;
+const InputContainer = styled.div`
   width: 300px;
+  /* max-height: 400px; */
+`;
+const Input = styled.input`
+  width: 100%;
+  padding: 1rem;
   border: none;
   outline: none;
   border-radius: 5px;
@@ -49,31 +52,36 @@ const ErrorMessage = styled.p`
   text-align: center;
   color: ${(p) => p.theme.textColor}; ;
 `;
+// const List = styled.ul`
+//   max-height: 300px;
+//   overflow-y: scroll;
+// `;
+// const ListOption = styled.li`
+//   list-style: none;
+//   color: ${(p) => p.theme.textColor};
+//   border: 1px solid ${(p) => p.theme.bgColor};
+//   background-color: ${(p) => p.theme.elColor};
+// `;
 
-const Home = ({ setTheme, theme }) => {
-  const {
-    setResults,
-    results,
-    error,
-    loading,
-    getSearchResults,
-    getFilteredResults,
-  } = useResultContext();
+const Home = () => {
+  const { results, error, loading, getSearchResults, getFilteredResults } =
+    useResultContext();
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [postsPerPage] = useState(10);
   const [paginatedResults, setPaginatedResults] = useState(results);
 
   useEffect(() => {
     const idxOfLastPost = currentPage * postsPerPage;
     const idxOfFirstPost = idxOfLastPost - postsPerPage;
     setPaginatedResults(results?.slice(idxOfFirstPost, idxOfLastPost));
-  }, [results, currentPage]);
+  }, [results, currentPage, postsPerPage]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
+    const name = e.target.country.value;
 
     getSearchResults(name);
+    setCurrentPage(1);
   };
 
   const handleFilter = (e) => {
@@ -97,12 +105,14 @@ const Home = ({ setTheme, theme }) => {
   return (
     <Container>
       <Form onSubmit={handleSearch}>
-        <Input
-          type="text"
-          name="name"
-          placeholder="Search for a country..."
-          autoComplete="off"
-        />
+        <InputContainer>
+          <Input
+            type="text"
+            name="country"
+            placeholder="Search for a country..."
+            autoComplete="off"
+          />
+        </InputContainer>
         <Select onChange={handleFilter} defaultValue="Filter by Region">
           <option>Filter by Region</option>
           <option value="Africa">Africa</option>
