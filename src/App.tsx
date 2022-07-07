@@ -7,7 +7,7 @@ function App() {
       <header>
         <Header />
       </header>
-      <main>
+      <main className="px-5">
         <Hero />
       </main>
     </>
