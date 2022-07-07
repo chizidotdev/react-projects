@@ -14,8 +14,8 @@
 
 /* Your own custom utilities */
 
-body {
-  min-height: 500vh;
+a {
+  cursor: pointer;
 }
 
 .about-bg,
