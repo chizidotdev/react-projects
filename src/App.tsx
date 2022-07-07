@@ -1,3 +1,4 @@
+import About from "./components/About";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 
@@ -7,8 +8,9 @@ function App() {
       <header>
         <Header />
       </header>
-      <main className="px-5">
+      <main>
         <Hero />
+        <About />
       </main>
     </>
   );

@@ -2,7 +2,7 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <section className="flex flex-col items-center my-[7vh]">
+    <section className="flex flex-col items-center my-16 px-4">
       <div className="w-4/5">
         <img src="/illustration-1.svg" alt="secure file location" />
       </div>
