@@ -13,28 +13,20 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+/* 
+picture {
+  position: absolute;
+  top: -10%;
+  width: 100%;
+} */
 
 a {
   cursor: pointer;
 }
 
-.about-bg,
-.works {
+.works,
+.about {
   position: relative;
-}
-
-.about-bg::before {
-  z-index: -2;
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
-  /* background-color: red; */
-  content: "";
-  position: absolute;
-  top: -5%;
-  /* left: -50%; */
-  width: 150%;
-  height: 200px;
-  border-radius: 50% / 40%;
 }
 
 .works::before {
