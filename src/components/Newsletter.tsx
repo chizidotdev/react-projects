@@ -1,5 +1,3 @@
-import React from "react";
-
 const Newsletter = () => {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center gap-6 px-5 lg:px-20 py-16 lg:py-24 text-white bg-[#585989]">
@@ -15,7 +13,7 @@ const Newsletter = () => {
       </div>
       <form className="flex flex-col items-center lg:items-start gap-3 w-4/5 md:w-1/2 lg:w-4/5 xl:w-2/3">
         <input
-          className="w-full border border-slate-700 rounded-md text-xs px-2 py-4 lg:px-5"
+          className="w-full border border-slate-700 rounded-md text-xs py-4 px-5"
           type="text"
           placeholder="email@example.com"
         />

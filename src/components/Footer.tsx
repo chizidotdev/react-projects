@@ -1,4 +1,4 @@
-import React from "react";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -31,9 +31,24 @@ const Footer = () => {
           <a href="/">Privacy</a>
         </div>
         <div className="flex justify-center gap-3 w-full sm:w-80">
-          <a href="/">Fa</a>
-          <a href="/">So</a>
-          <a href="/">Wa</a>
+          <a
+            className="flex items-center justify-center border rounded-full w-8 h-8"
+            href="/"
+          >
+            <FaFacebookF />
+          </a>
+          <a
+            className="flex items-center justify-center border rounded-full w-8 h-8"
+            href="/"
+          >
+            <FaTwitter />
+          </a>
+          <a
+            className="flex items-center justify-center border rounded-full w-8 h-8"
+            href="/"
+          >
+            <FaInstagram />
+          </a>
         </div>
       </div>
     </section>
