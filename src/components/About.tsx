@@ -3,7 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <section className="about bg-slate-50 px-5 pb-20 flex flex-col md:flex-row-reverse md:gap-10 items-center mt-32 md:mt-44 md:px-10 lg:px-20">
-      <div className="about-bg" />
+      {/*<div className="about-bg" />*/}
       <div className="sm:flex-1">
         <img src="/illustration-2.svg" alt="about" />
       </div>
