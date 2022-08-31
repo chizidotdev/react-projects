@@ -1,10 +1,6 @@
 # react-movie
 
-    Responsive React Movies App With API
-
-# Video tutorial
-
-    https://youtu.be/ntYXj9W1Ez8
+    Responsive React Movies App With tmdb API
 
 # Resource
 
