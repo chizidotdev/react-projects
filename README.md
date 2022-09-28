@@ -59,6 +59,6 @@ It's wrong to nest interactive html elements like a tags in a button for example
 
 ## Author
 
-- Website - [Chizi Victor](https://chiziivictor.netlify.app)
+- Website - [Chizi Victor](https://chizi.dev)
 - Frontend Mentor - [@chiziivictor](https://www.frontendmentor.io/profile/chiziivictor)
-- Twitter - [@chiziivictor](https://www.twitter.com/chiziivictor)
+- Twitter - [@chiziivictor](https://www.twitter.com/chizidotdev)
