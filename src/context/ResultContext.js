@@ -1,79 +1,42 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const ResultContext = createContext();
-const baseUrl = "https://restcountries.com/v3.1/";
+const baseUrl = "https://google-search3.p.rapidapi.com/api/v1";
 
 export const ResultContextProvider = ({ children }) => {
-  const [results, setResults] = useState();
-  const [error, setError] = useState(false);
-  const [details, setDetail] = useState(results);
-  const [loading, setLoading] = useState(true);
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    getAllResults();
-  }, []);
+  const getResults = async (type) => {
+    setIsLoading(true);
 
-  const getAllResults = async () => {
-    setError(false);
-    setLoading(true);
-    const response = await fetch(`${baseUrl}all/`);
-    if (response.status === 200) {
-      const data = await response.json();
+    const response = await fetch(`${baseUrl}${type}`, {
+      method: "GET",
+      headers: {
+        "X-User-Agent": "desktop",
+        "X-Proxy-Location": "US",
+        "X-RapidAPI-Host": "google-search3.p.rapidapi.com",
+        "X-RapidAPI-Key": process.env.REACT_APP_API_KEY,
+      },
+    });
 
-      setDetail(data[0]);
-      setResults(data);
-      setLoading(false);
+    const data = await response.json();
+
+    if (type.includes("/news")) {
+      setResults(data.entries);
+    } else if (type.includes("/image")) {
+      setResults(data.image_results);
     } else {
-      setError(true);
-      return;
+      setResults(data.results);
     }
-  };
 
-  const getSearchResults = async (name) => {
-    setError(false);
-    setLoading(true);
-    const response = await fetch(`${baseUrl}name/${name}/`);
-    if (response.status === 404) {
-      setError(true);
-      return;
-    }
-    const data = await response.json();
-    setResults(data);
-    setLoading(false);
-  };
-
-  const getFilteredResults = async (region) => {
-    setError(false);
-    setLoading(true);
-    if (region === "Filter by Region") {
-      getAllResults();
-      return;
-    }
-    const response = await fetch(`${baseUrl}region/${region}/`);
-    if (response.status === 404) {
-      setError(true);
-      return;
-    }
-    const data = await response.json();
-    setResults(data);
-    setLoading(false);
+    setIsLoading(false);
   };
 
   return (
     <ResultContext.Provider
-      value={{
-        results,
-        error,
-        details,
-        loading,
-        getAllResults,
-        getSearchResults,
-        getFilteredResults,
-        setError,
-        setResults,
-        setDetail,
-        setLoading,
-      }}
+      value={{ getResults, results, searchTerm, setSearchTerm, isLoading }}
     >
       {children}
     </ResultContext.Provider>
